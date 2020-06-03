@@ -1,0 +1,36 @@
+apiVersion: skaffold/v2alpha4
+kind: Config
+build:
+  artifacts:
+    - image: user1-wa
+      context: user1
+    - image: user2-WA 
+      context: user2 
+
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    build:
+      artifacts:
+        - image: user1-wa
+          context: user1
+          docker:
+            buildArgs:
+              DEBUG: 1
+        #          sync:
+        #            infer:
+        #              - "src"
+        - image: user2-wa 
+          context: user2 
+          docker:
+            buildArgs:
+              DEBUG: 1
+#          sync:
+#            infer:
+#              - "src"
+deploy:
+  kubectl:
+    manifests:
+      - ./user1/k8s/*
+      - ./user2/k8s/*

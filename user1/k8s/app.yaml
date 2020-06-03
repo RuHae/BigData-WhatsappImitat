@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user1
+  template:
+    metadata:
+      labels:
+        app: user1
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+        - name: user1
+          image: user1-wa
